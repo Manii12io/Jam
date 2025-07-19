@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
 @export var speed := 100
-@export var player_path := NodePath("../player")
-@export var left_limit := -100
+@export var player_path := NodePath("../../player")
+@export var left_limit := -150
 @export var right_limit := 100
-@export var detection_range := 160.0
+@export var detection_range := 85.0
 @export var attack_range := 30.0
-@export var attack_cooldown := 1.0  # Seconds
+@export var attack_cooldown := 5.0  # Seconds
 @export var mask_offset_distance := 30.0  # Distance from enemy toward player
 
 @onready var sprite: AnimatedSprite2D = $normal
@@ -20,16 +20,27 @@ var start_position := Vector2.ZERO
 var is_attacking = false
 var attack_timer = 0.0
 
+var health := 60
+
+func take_damage(amount: int):
+	health -= amount
+	print("Enemy took", amount, "damage. Remaining HP:", health)
+	if health <= 0:
+		sprite.play('eye')
+		
+		#queue_free()
 
 
 
 
 func _ready():
-	player = get_node(player_path)
+	player = get_tree().get_root().get_node("game/player")
 	start_position = position
 	sprite.play("walk")
 	sprite.connect("animation_finished", _on_animation_finished)
-	mask.visible = false  # Ensure mask is hidden at start
+	mask.visible = false  # Ensure mask is hidden at startas
+	
+	
 
 
 func _physics_process(_delta):
@@ -76,7 +87,13 @@ func _physics_process(_delta):
 		sprite.flip_h = patrol_direction < 0
 		sprite.play("walk")
 
-	move_and_slide()
+	var collision = move_and_slide()
+	if collision:
+		for i in range(get_slide_collision_count()):
+			var col = get_slide_collision(i)
+			if abs(col.get_normal().x) > 0.9:
+				patrol_direction *= -1
+				break
 
 func start_attack():
 	is_attacking = true
@@ -94,6 +111,8 @@ func start_attack():
 
 
 func _on_animation_finished():
+	if sprite.animation =="eye":
+		queue_free()
 	if sprite.animation == "bite":
 		is_attacking = false
 		mask.visible = false
@@ -113,3 +132,5 @@ func can_see_player() -> bool:
 		return true
 	else:
 		return false
+		
+	
