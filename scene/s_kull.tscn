@@ -1,0 +1,183 @@
+[gd_scene load_steps=18 format=3 uid="uid://bq5omldxqxcuf"]
+
+[ext_resource type="Script" path="res://scripts/s_kull.gd" id="1_81la8"]
+[ext_resource type="Texture2D" uid="uid://b85bx7qgd0tct" path="res://assest/Boss_3-Sheet.png" id="2_8lobi"]
+[ext_resource type="Script" path="res://scripts/Hand_1.gd" id="3_8lobi"]
+[ext_resource type="Script" path="res://scripts/HitBox.gd" id="4_1egan"]
+[ext_resource type="Script" path="res://scripts/HurtBox.gd" id="4_crg4y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5ss75"]
+radius = 12.0
+
+[sub_resource type="Animation" id="Animation_deqho"]
+resource_name = "Idle"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_mmwv4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5eayj"]
+_data = {
+"Idle": SubResource("Animation_deqho"),
+"RESET": SubResource("Animation_mmwv4")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r6krp"]
+size = Vector2(6.25, 6.25)
+
+[sub_resource type="Animation" id="Animation_5eayj"]
+resource_name = "Drag"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [34, 35, 36, 37, 38, 39, 40, 41, 42, 43]
+}
+
+[sub_resource type="Animation" id="Animation_5ss75"]
+resource_name = "Explode"
+length = 1.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34]
+}
+
+[sub_resource type="Animation" id="Animation_81la8"]
+resource_name = "Idle_hand"
+length = 1.3
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+}
+
+[sub_resource type="Animation" id="Animation_8lobi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5ss75"]
+_data = {
+"Drag": SubResource("Animation_5eayj"),
+"Explode": SubResource("Animation_5ss75"),
+"Idle_hand": SubResource("Animation_81la8"),
+"RESET": SubResource("Animation_8lobi")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_me7qg"]
+size = Vector2(12, 12)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i01v8"]
+radius = 15.0333
+
+[node name="sKULL" type="CharacterBody2D"]
+script = ExtResource("1_81la8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_8lobi")
+hframes = 7
+vframes = 7
+frame = 1
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+shape = SubResource("CircleShape2D_5ss75")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5eayj")
+}
+
+[node name="Hand_sprite" type="CharacterBody2D" parent="."]
+position = Vector2(38, 14)
+script = ExtResource("3_8lobi")
+
+[node name="Sprite2D" type="Sprite2D" parent="Hand_sprite"]
+texture = ExtResource("2_8lobi")
+hframes = 7
+vframes = 7
+frame = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hand_sprite"]
+shape = SubResource("RectangleShape2D_r6krp")
+
+[node name="AnimationPlayer_Hand" type="AnimationPlayer" parent="Hand_sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_5ss75")
+}
+
+[node name="HitBox" type="Area2D" parent="Hand_sprite"]
+script = ExtResource("4_1egan")
+
+[node name="Hand" type="CollisionShape2D" parent="Hand_sprite/HitBox"]
+shape = SubResource("RectangleShape2D_me7qg")
+debug_color = Color(0.953344, 7.70092e-07, 0.554043, 0.42)
+
+[node name="HurtBox" type="Area2D" parent="."]
+script = ExtResource("4_crg4y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -15)
+shape = SubResource("CircleShape2D_i01v8")
+debug_color = Color(0.895143, 0.278634, 0.406676, 0.42)

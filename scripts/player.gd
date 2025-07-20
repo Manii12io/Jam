@@ -8,13 +8,35 @@ extends CharacterBody2D
 @onready var animate = $AnimationPlayer
 @onready var hitbox = $HitBox
 @onready var sprite = $Sprite2D  # For flip_h if still needed
+@onready var hurtbox = $Sprite2D/HurtBox
+@onready var death_screen=get_node("../ui/death")
 
 var is_attacking = false
 var is_dodging = false
+var is_dead=false
 var dodge_timer = 0.0
 var cooldown_timer = 0.0
 var dodge_direction = Vector2.ZERO
 var last_move_dir = Vector2.DOWN
+
+
+var health := 10
+
+func show_death_screen():
+	death_screen.show_death_screen()
+
+
+
+func take_damage(amount: int):
+	if is_dead:
+		return
+	health -= amount
+	print("Enemy took", amount, "damage. Remaining HP:", health)
+	if health <= 0:
+		is_dead = true
+		animate.play("Death")
+		show_death_screen()
+		
 
 func _ready():
 	animate.connect("animation_finished", Callable(self, "_on_animation_player_animation_finished"))
@@ -26,16 +48,27 @@ func _ready():
 
 
 func _on_animation_player_animation_finished(anim_name):
+	if anim_name.begins_with("Death"):
+		queue_free() 
+		return
+	
 	if anim_name.begins_with("Attack"):
 		print("Attack animation finished. Disabling hitbox.")
 		is_attacking = false
 		hitbox.monitoring = false
+		hurtbox.monitoring=true
 
 func _physics_process(delta):
 	var input_direction = Vector2(
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
 		Input.get_action_strength("down") - Input.get_action_strength("up")
 	).normalized()
+	
+	if is_dead:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
 	
 	if input_direction != Vector2.ZERO and !is_dodging:
 		last_move_dir = input_direction
@@ -46,6 +79,9 @@ func _physics_process(delta):
 		sprite.flip_h = false
 	elif direction_x > 0:
 		sprite.flip_h = true
+		
+	
+
 
 	# Handle attack
 	if is_attacking:
@@ -56,6 +92,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("attack") and !is_dodging:
 		is_attacking = true
 		hitbox.monitoring = true
+		hurtbox.monitoring = false
 		velocity = Vector2.ZERO
 
 		# Play appropriate attack animation
