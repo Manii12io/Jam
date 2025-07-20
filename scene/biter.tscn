@@ -1,10 +1,10 @@
-[gd_scene load_steps=68 format=3 uid="uid://cpf66uhnhy6d"]
+[gd_scene load_steps=58 format=3 uid="uid://cpf66uhnhy6d"]
 
 [ext_resource type="Texture2D" uid="uid://5ndjdpao8dmw" path="res://assest/biter/biter.png" id="1_5wjqm"]
 [ext_resource type="Script" path="res://scripts/biter.gd" id="1_xp1pe"]
 [ext_resource type="Script" path="res://scripts/HurtBox.gd" id="3_5jggs"]
 [ext_resource type="Texture2D" uid="uid://cp0udnerd8wv" path="res://assest/biter/bite attack.png" id="3_i4pnd"]
-[ext_resource type="Texture2D" uid="uid://bxypwydbexmx5" path="res://assest/biter/Earthshatter-Sheet.png" id="4_kvln0"]
+[ext_resource type="Script" path="res://scripts/HitBox.gd" id="6_m1o22"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_43rej"]
 atlas = ExtResource("1_5wjqm")
@@ -346,119 +346,76 @@ animations = [{
 radius = 8.04789
 height = 29.8081
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ecd21"]
-atlas = ExtResource("3_i4pnd")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ise8k"]
-atlas = ExtResource("3_i4pnd")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sp4l5"]
-atlas = ExtResource("3_i4pnd")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vjs47"]
-atlas = ExtResource("3_i4pnd")
-region = Rect2(0, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lu0pe"]
-atlas = ExtResource("3_i4pnd")
-region = Rect2(64, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v5m1i"]
-atlas = ExtResource("3_i4pnd")
-region = Rect2(128, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_axlbm"]
-atlas = ExtResource("4_kvln0")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_btlc7"]
-atlas = ExtResource("4_kvln0")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5olsn"]
-atlas = ExtResource("4_kvln0")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dtipl"]
-atlas = ExtResource("4_kvln0")
-region = Rect2(0, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ss2te"]
-atlas = ExtResource("4_kvln0")
-region = Rect2(64, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hem8u"]
-atlas = ExtResource("4_kvln0")
-region = Rect2(128, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8jjia"]
-atlas = ExtResource("4_kvln0")
-region = Rect2(0, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nre6e"]
-atlas = ExtResource("4_kvln0")
-region = Rect2(64, 128, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_x5rd4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ecd21")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ise8k")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sp4l5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vjs47")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lu0pe")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v5m1i")
-}],
-"loop": false,
-"name": &"bit_teeth",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_axlbm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_btlc7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5olsn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dtipl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ss2te")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hem8u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8jjia")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nre6e")
-}],
-"loop": false,
-"name": &"earth_scater",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l2rrt"]
 size = Vector2(14, 20)
+
+[sub_resource type="Animation" id="Animation_gflfi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("maskeffect/mask:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("maskeffect/HitBox/Bite:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_gflgf"]
+resource_name = "bite"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("maskeffect/mask:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("maskeffect/HitBox/Bite:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 0.870551, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_adaos"]
+resource_name = "walk"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sghfo"]
+_data = {
+"RESET": SubResource("Animation_gflfi"),
+"bite": SubResource("Animation_gflgf"),
+"walk": SubResource("Animation_adaos")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ul81y"]
+size = Vector2(26, 37)
 
 [node name="biter" type="CharacterBody2D"]
 script = ExtResource("1_xp1pe")
@@ -470,19 +427,40 @@ sprite_frames = SubResource("SpriteFrames_xexn4")
 animation = &"eye"
 
 [node name="HurtBox" type="Area2D" parent="normal"]
+visible = false
+collision_layer = 5
+collision_mask = 8
 script = ExtResource("3_5jggs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="normal/HurtBox"]
 rotation = -0.0646526
 shape = SubResource("CapsuleShape2D_w7cna")
 
-[node name="masksprite" type="AnimatedSprite2D" parent="."]
-z_index = 1
-position = Vector2(9, -1)
-scale = Vector2(1.5, 1.5)
-sprite_frames = SubResource("SpriteFrames_x5rd4")
-animation = &"bit_teeth"
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_l2rrt")
+
+[node name="maskeffect" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="maskeffect"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_sghfo")
+}
+
+[node name="mask" type="Sprite2D" parent="maskeffect"]
+scale = Vector2(1.35, 1.35)
+texture = ExtResource("3_i4pnd")
+hframes = 3
+vframes = 2
+
+[node name="HitBox" type="Area2D" parent="maskeffect"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("6_m1o22")
+
+[node name="Bite" type="CollisionShape2D" parent="maskeffect/HitBox"]
+position = Vector2(0, 6.5)
+shape = SubResource("RectangleShape2D_ul81y")
+debug_color = Color(0.95133, 1.05888e-06, 0.564187, 0.42)

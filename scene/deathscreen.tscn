@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxilt5yrt2hhp"]
+
+[ext_resource type="Script" path="res://scripts/deathscreen.gd" id="1_ss5k4"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 62.0
+offset_right = 76.0
+offset_bottom = 62.0
+script = ExtResource("1_ss5k4")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer2"]
+layout_mode = 2
+text = "YOU DIED"
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Restart"

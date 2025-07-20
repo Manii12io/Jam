@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bl4g0pssw167m"]
+
+[ext_resource type="Script" path="res://scripts/death.gd" id="1_bnjdg"]
+
+[node name="death" type="CanvasLayer"]
+script = ExtResource("1_bnjdg")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+offset_right = 65.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart"

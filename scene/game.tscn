@@ -1,16 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://breq42sbkrigh"]
+[gd_scene load_steps=10 format=3 uid="uid://breq42sbkrigh"]
 
 [ext_resource type="PackedScene" uid="uid://r4785kgsvt8k" path="res://scene/watcher.tscn" id="2_1tjyw"]
 [ext_resource type="PackedScene" uid="uid://cpf66uhnhy6d" path="res://scene/biter.tscn" id="3_bx2l0"]
 [ext_resource type="PackedScene" uid="uid://bjnfx4mm1s0tp" path="res://scene/level_1.tscn" id="4_yvrtf"]
 [ext_resource type="PackedScene" uid="uid://b6eagnq6a5uhw" path="res://scene/level_2.tscn" id="5_dur68"]
 [ext_resource type="PackedScene" uid="uid://bfjq27085gyt3" path="res://scene/Player.tscn" id="7_fuav7"]
+[ext_resource type="PackedScene" uid="uid://bi1ye0cm3f0gw" path="res://scene/level_3.tscn" id="7_qvwth"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="8_sl5fi"]
+[ext_resource type="PackedScene" uid="uid://bq5omldxqxcuf" path="res://scene/s_kull.tscn" id="8_wsqy4"]
+[ext_resource type="PackedScene" uid="uid://bl4g0pssw167m" path="res://scene/death.tscn" id="9_td3s8"]
 
 [node name="game" type="Node2D"]
 
 [node name="player" parent="." instance=ExtResource("7_fuav7")]
-position = Vector2(-8, 713)
+position = Vector2(1006, 3655)
 script = ExtResource("8_sl5fi")
 
 [node name="Camera2D" type="Camera2D" parent="player"]
@@ -19,10 +22,13 @@ zoom = Vector2(0.84, 0.84)
 [node name="levels" type="Node" parent="."]
 
 [node name="level1" parent="levels" instance=ExtResource("4_yvrtf")]
-position = Vector2(93, 64)
+position = Vector2(94, 64)
 
 [node name="level_2" parent="levels" instance=ExtResource("5_dur68")]
-position = Vector2(839, 3586)
+position = Vector2(1124, 3601)
+
+[node name="level_3" parent="levels" instance=ExtResource("7_qvwth")]
+position = Vector2(2116, 2743)
 
 [node name="enemy" type="Node" parent="."]
 
@@ -32,4 +38,14 @@ player_path = NodePath("")
 
 [node name="biter" parent="enemy" instance=ExtResource("3_bx2l0")]
 position = Vector2(277, 50)
-player_path = NodePath("")
+
+[node name="boss" type="Node" parent="."]
+
+[node name="sKULL" parent="boss" instance=ExtResource("8_wsqy4")]
+z_index = 1
+position = Vector2(1085, 4168)
+scale = Vector2(2, 2)
+
+[node name="ui" type="Node" parent="."]
+
+[node name="death" parent="ui" instance=ExtResource("9_td3s8")]

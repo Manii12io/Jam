@@ -6,11 +6,13 @@ extends CharacterBody2D
 @export var right_limit := 100
 @export var detection_range := 85.0
 @export var attack_range := 30.0
-@export var attack_cooldown := 5.0  # Seconds
+@export var attack_cooldown := 10.0  # Seconds
 @export var mask_offset_distance := 30.0  # Distance from enemy toward player
 
 @onready var sprite: AnimatedSprite2D = $normal
-@onready var mask: AnimatedSprite2D = $masksprite
+@onready var mask_effect = $maskeffect
+@onready var mask_anim = $maskeffect/AnimationPlayer
+@onready var hurtbox=$normal/HurtBox
 
 var player
 var patrol_direction := 1
@@ -22,13 +24,18 @@ var attack_timer = 0.0
 
 var health := 60
 
+var is_dead = false
+
 func take_damage(amount: int):
+	if is_dead or not hurtbox.monitoring:
+		return
 	health -= amount
 	print("Enemy took", amount, "damage. Remaining HP:", health)
 	if health <= 0:
+		is_dead = true
+		velocity = Vector2.ZERO
 		sprite.play('eye')
-		
-		#queue_free()
+
 
 
 
@@ -38,10 +45,9 @@ func _ready():
 	start_position = position
 	sprite.play("walk")
 	sprite.connect("animation_finished", _on_animation_finished)
-	mask.visible = false  # Ensure mask is hidden at startas
+	$maskeffect/HitBox/Bite.disabled=true
 	
 	
-
 
 func _physics_process(_delta):
 	if not player:
@@ -51,6 +57,12 @@ func _physics_process(_delta):
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
+	
+	if is_dead:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
 
 	var distance_to_player = position.distance_to(player.position)
 
@@ -98,24 +110,28 @@ func _physics_process(_delta):
 func start_attack():
 	is_attacking = true
 	velocity = Vector2.ZERO
-
-	# Calculate direction toward player
+	
+	hurtbox.monitoring=false
+	
 	var to_player = (player.position - position).normalized()
-	mask.position = to_player * mask_offset_distance
+	mask_effect.position = to_player * mask_offset_distance
+	print("MaskEffect Position:", mask_effect.position)
 
-	mask.visible = true
-	mask.play("bit_teeth")
+
+	mask_effect.visible = true
+	mask_anim.play("bite")
 	sprite.play("bite")
+
 	
 
 
-
 func _on_animation_finished():
-	if sprite.animation =="eye":
+	if sprite.animation == "eye":
 		queue_free()
-	if sprite.animation == "bite":
+	elif sprite.animation == "bite":
 		is_attacking = false
-		mask.visible = false
+		mask_effect.visible = false
+		hurtbox.monitoring = true
 
 
 func can_see_player() -> bool:

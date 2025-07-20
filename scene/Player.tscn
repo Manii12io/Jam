@@ -1,6 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://bfjq27085gyt3"]
+[gd_scene load_steps=21 format=3 uid="uid://bfjq27085gyt3"]
 
 [ext_resource type="Texture2D" uid="uid://n4ngaxwkl8lc" path="res://assest/let see/player-Sheet_form_1.png" id="1_7qjnn"]
+[ext_resource type="Script" path="res://scripts/HurtBox.gd" id="2_lt1kf"]
 [ext_resource type="Script" path="res://scripts/HitBox.gd" id="2_qejsv"]
 
 [sub_resource type="Animation" id="Animation_3tkgg"]
@@ -280,6 +281,8 @@ _data = {
 "Walk_Up": SubResource("Animation_dtqjt")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rgul3"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jatw7"]
 size = Vector2(26, 56)
 
@@ -293,6 +296,8 @@ size = Vector2(26, 50)
 
 [node name="player" type="CharacterBody2D"]
 z_index = 1
+collision_layer = 2
+collision_mask = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -305,6 +310,16 @@ texture = ExtResource("1_7qjnn")
 hframes = 7
 vframes = 7
 frame = 41
+
+[node name="HurtBox" type="Area2D" parent="Sprite2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_lt1kf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/HurtBox"]
+position = Vector2(0, 14)
+shape = SubResource("RectangleShape2D_rgul3")
+debug_color = Color(0.618614, 0.384681, 0.941078, 0.42)
 
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 2
